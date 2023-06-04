@@ -25,6 +25,8 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('test',[\App\Http\Controllers\TestController::class, 'store'])->name('client.test.store');
     Route::get('results/{result_id}',[\App\Http\Controllers\ResultController::class, 'show'])->name('client.results.show');
 
+    Route::get('import',[\App\Http\Controllers\ExcelController::class, 'showForm'])->name('import.form');
+        Route::post('import',[\App\Http\Controllers\ExcelController::class, 'import'])->name('import.process');
     // admin only
     Route::group(['middleware' => 'isAdmin','prefix' => 'admin', 'as' => 'admin.'], function() {
         Route::get('dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard.index');
@@ -50,6 +52,10 @@ Route::group(['middleware' => 'auth'], function() {
         // results
         Route::resource('results', \App\Http\Controllers\Admin\ResultController::class);
         Route::delete('results_mass_destroy', [\App\Http\Controllers\Admin\ResultController::class, 'massDestroy'])->name('results.mass_destroy');
+
+        
+
+
     });
 
 });
