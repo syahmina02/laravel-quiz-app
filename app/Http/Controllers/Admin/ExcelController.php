@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Option;
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
@@ -15,7 +16,7 @@ class ExcelController extends Controller
 {
     public function showForm()
     {
-        return view('excel.form');
+        return view('admin.excel.form');
     }
     public function import(Request $request) {
         if ($request->hasFile('excel_file')) {
@@ -56,7 +57,9 @@ class ExcelController extends Controller
                 }
             }
     
-            return "Data imported successfully!";
+            Session::flash('success', 'Data imported successfully!'); // Flash success message
+
+            return redirect('admin/dashboard'); // Redirect to the dashboard page
         }
     
         return "No file found.";
