@@ -50,4 +50,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Result::class);
     }
+    
+    public function isAdmin()
+    {
+        // Add your logic to determine if the user is an admin
+        return $this->role === 'admin'; // Assuming you have a 'role' column in the users table
+    }
 }

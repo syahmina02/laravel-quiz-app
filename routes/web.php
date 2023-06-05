@@ -26,6 +26,12 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('results/{result_id}',[\App\Http\Controllers\ResultController::class, 'show'])->name('client.results.show');
 
     
+
+
+/*     Route::get('test',[\App\Http\Controllers\TestController::class, 'index'])->name('client.test.index');
+    Route::post('test',[\App\Http\Controllers\TestController::class, 'store'])->name('client.test.store'); */
+
+    
     // admin only
     Route::group(['middleware' => 'isAdmin','prefix' => 'admin', 'as' => 'admin.'], function() {
         Route::get('dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard.index');
@@ -55,10 +61,14 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('import',[\App\Http\Controllers\Admin\ExcelController::class, 'showForm'])->name('import.form');
         Route::post('import',[\App\Http\Controllers\Admin\ExcelController::class, 'import'])->name('import.process');
 
+        Route::get('question-count/edit', [\App\Http\Controllers\Admin\TestAdminController::class, 'edit'])->name('question_count.edit');
+        Route::post('question-count/update', [\App\Http\Controllers\Admin\TestAdminController::class, 'update'])->name('question_count.update');
+/* 
+        Route::get('question-count/edit', [\App\Http\Controllers\Admin\TestAdminController::class, 'edit'])->name('admin.question_count.edit');
+        Route::post('question-count/update', [\App\Http\Controllers\Admin\TestAdminController::class, 'update'])->name('admin.question_count.update'); */
 
     });
 
 });
 
 Auth::routes();
-
