@@ -63,10 +63,9 @@ Route::group(['middleware' => 'auth'], function() {
 
         Route::get('question-count/edit', [\App\Http\Controllers\Admin\TestAdminController::class, 'edit'])->name('question_count.edit');
         Route::post('question-count/update', [\App\Http\Controllers\Admin\TestAdminController::class, 'update'])->name('question_count.update');
-/* 
-        Route::get('question-count/edit', [\App\Http\Controllers\Admin\TestAdminController::class, 'edit'])->name('admin.question_count.edit');
-        Route::post('question-count/update', [\App\Http\Controllers\Admin\TestAdminController::class, 'update'])->name('admin.question_count.update'); */
-
+        
+        Route::get('questions/select', [\App\Http\Controllers\Admin\QuestionController::class, 'showSelectQuestionsForm'])->name('questions.select');
+        Route::post('questions/save-selected-questions', [\App\Http\Controllers\Admin\QuestionController::class, 'saveSelectedQuestions'])->name('questions.save_selected_questions');
     });
 
 });

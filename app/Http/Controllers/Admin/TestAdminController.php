@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Category;
 use App\Models\Question;
+use App\Models\QuestionCount;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -28,8 +29,10 @@ class TestAdminController extends Controller
     {
         $questionCounts = $request->input('question_counts');
 
-    // Store the question counts in the session
-        session(['question_counts' => $questionCounts]);
+        // Save the question counts in the database
+        foreach ($questionCounts as $categoryId => $count) {
+            QuestionCount::updateOrCreate(['category_id' => $categoryId], ['count' => $count]);
+        }
 
         return redirect()->route('admin.dashboard.index')->withSuccess('Question counts updated successfully.');
     }
