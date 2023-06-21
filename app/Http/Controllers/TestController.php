@@ -9,10 +9,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTestRequest;
 
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\DB;
-
 class TestController extends Controller
 {
     public function index()
@@ -20,48 +16,37 @@ class TestController extends Controller
         $questionCounts = QuestionCount::pluck('count', 'category_id');
 
         $categories = Category::with(['categoryQuestions' => function ($query) {
-        $query->inRandomOrder()
-            ->with(['questionOptions' => function ($query) {
-                $query->inRandomOrder();
-            }]);
+            $query->inRandomOrder()
+                ->with(['questionOptions' => function ($query) {
+                    $query->inRandomOrder();
+                }]);
         }])->whereHas('categoryQuestions')->get();
 
         foreach ($categories as $category) {
             $questionCount = $questionCounts[$category->id] ?? 0;
             $category->categoryQuestions = $category->categoryQuestions->take($questionCount);
-    }
+        }
 
         return view('client.test', compact('categories'));
     }
 
     public function store(StoreTestRequest $request)
     {
-        $questionCounts = session('question_counts', []);
+        $options = Option::find(array_values($request->input('questions')));
 
-        foreach ($questionCounts as $categoryId => $questionCount) {
-        $category = Category::findOrFail($categoryId);
+        $result = auth()->user()->userResults()->create([
+            'total_points' => $options->sum('points')
+        ]);
 
-        $questions = $category->categoryQuestions()
-            ->inRandomOrder()
-            ->limit($questionCount)
-            ->get();
+        $questions = $options->mapWithKeys(function ($option) {
+            return [$option->question_id => [
+                'option_id' => $option->id,
+                'points' => $option->points
+            ]];
+        })->toArray();
 
-        foreach ($questions as $question) {
-            // Store the selected options for the question
-            $options = Option::find($request->input("questions.{$question->id}"));
-            // Store the result and its associated options
-            $result = auth()->user()->userResults()->create([
-                'total_points' => $options->sum('points'),
-            ]);
-            $result->questions()->attach($question->id, [
-                'option_id' => $options->id,
-                'points' => $options->points,
-            ]);
-         }
+        $result->questions()->sync($questions);
+
+        return redirect()->route('client.results.show', $result->id);
     }
-
-    return redirect()->route('client.results.show', $result->id);
-}
-
-
 }
