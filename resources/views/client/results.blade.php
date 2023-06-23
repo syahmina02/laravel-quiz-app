@@ -25,6 +25,13 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="mt-3">
+                        @if ($result->total_points == count($result->questions))
+                            <a href="{{ route('client.test') }}" class="btn btn-primary">Next</a>
+                        @else
+                            <a href="{{ route('client.test') }}" class="btn btn-secondary">Retry</a>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>

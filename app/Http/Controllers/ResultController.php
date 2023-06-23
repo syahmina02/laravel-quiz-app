@@ -8,11 +8,24 @@ use App\Http\Controllers\Controller;
 
 class ResultController extends Controller
 {
-    public function show($result_id){
+    public function show($result_id)
+    {
         $result = Result::whereHas('user', function ($query) {
             $query->whereId(auth()->id());
         })->findOrFail($result_id);
-    
+
         return view('client.results', compact('result'));
+    }
+
+    public function next()
+    {
+        // Logic for the next page
+
+        return view('client.next');
+    }
+
+    public function test()
+    {
+        return redirect()->route('client.test');
     }
 }
