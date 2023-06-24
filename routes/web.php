@@ -55,6 +55,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::resource('results', \App\Http\Controllers\Admin\ResultController::class);
         Route::delete('results_mass_destroy', [\App\Http\Controllers\Admin\ResultController::class, 'massDestroy'])->name('results.mass_destroy');
 
+        //IMPORT EXCEL FILE MCQ
         Route::get('import',[\App\Http\Controllers\Admin\ExcelController::class, 'showForm'])->name('import.form');
         Route::post('import',[\App\Http\Controllers\Admin\ExcelController::class, 'import'])->name('import.process');
 
@@ -63,6 +64,15 @@ Route::group(['middleware' => 'auth'], function() {
         
         Route::get('questions/select', [\App\Http\Controllers\Admin\QuestionController::class, 'showSelectQuestionsForm'])->name('questions.select');
         Route::post('questions/save-selected-questions', [\App\Http\Controllers\Admin\QuestionController::class, 'saveSelectedQuestions'])->name('questions.save_selected_questions');
+
+        //FITB QUESTIONS
+        Route::resource('fitbquestions', \App\Http\Controllers\Admin\FitbquestionController::class);
+        Route::delete('fitbquestions_mass_destroy', [\App\Http\Controllers\Admin\FitbquestionController::class, 'massDestroy'])->name('fitbquestions.mass_destroy');
+
+        //FITB OPTIONS
+        Route::resource('fitboptions', \App\Http\Controllers\Admin\FitboptionController::class);
+        Route::delete('fitboptions_mass_destroy', [\App\Http\Controllers\Admin\FitboptionController::class, 'massDestroy'])->name('fitboptions.mass_destroy');
+
     });
 
 });
