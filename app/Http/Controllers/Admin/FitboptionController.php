@@ -16,16 +16,16 @@ class FitboptionController extends Controller
    
     public function index(): View
     {
-        $options = Fitboption::all();
+        $fitboptions = Fitboption::all();
 
-        return view('admin.fitboptions.index', compact('options'));
+        return view('admin.fitboptions.index', compact('fitboptions'));
     }
 
     public function create(): View
     {
-        $questions = Fitbquestion::all()->pluck('question_text', 'id');
+        $fitbquestions = Fitbquestion::all()->pluck('question_text', 'id');
 
-        return view('admin.fitboptions.create', compact('questions'));
+        return view('admin.fitboptions.create', compact('fitbquestions'));
     }
 
     public function store(OptionRequest $request): RedirectResponse
@@ -41,21 +41,21 @@ class FitboptionController extends Controller
         ]);
     }
 
-    public function show(Fitboption $option): View
+    public function show(Fitboption $fitboption): View
     {
-        return view('admin.fitboptions.show', compact('option'));
+        return view('admin.fitboptions.show', compact('fitboption'));
     }
 
-    public function edit(Fitboption $option): View
+    public function edit(Fitboption $fitboption): View
     {
-        $questions = Fitbquestion::all()->pluck('question_text', 'id');
+        $fitbquestions = Fitbquestion::all()->pluck('question_text', 'id');
 
-        return view('admin.fitboptions.edit', compact('option', 'questions'));
+        return view('admin.fitboptions.edit', compact('fitboption', 'fitbquestions'));
     }
 
-    public function update(OptionRequest $request, Fitboption $option): RedirectResponse
+    public function update(OptionRequest $request, Fitboption $fitboption): RedirectResponse
     {
-        $option->update($request->validated());
+        $fitboption->update($request->validated());
 
         return redirect()->route('admin.fitboptions.index')->with([
             'message' => 'successfully updated !',
@@ -63,9 +63,9 @@ class FitboptionController extends Controller
         ]);
     }
 
-    public function destroy(Fitboption $option): RedirectResponse
+    public function destroy(Fitboption $fitboption): RedirectResponse
     {
-        $option->delete();
+        $fitboption->delete();
 
         return back()->with([
             'message' => 'successfully deleted !',
