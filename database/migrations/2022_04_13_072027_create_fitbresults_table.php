@@ -1,12 +1,11 @@
 <?php
 
-use App\Models\Fitbquestion;
-use App\Models\Question;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFitboptionsTable extends Migration
+class CreateFitbresultsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,11 +14,10 @@ class CreateFitboptionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('fitboptions', function (Blueprint $table) {
+        Schema::create('fitbresults', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Fitbquestion::class)->constrained()->cascadeOnUpdate();
-            $table->longText('option_text');
-            $table->integer('points')->nullable();
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnUpdate();
+            $table->integer('total_points')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateFitboptionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fitboptions');
+        Schema::dropIfExists('fitbresults');
     }
 }

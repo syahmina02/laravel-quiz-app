@@ -28,13 +28,16 @@ class FitbquestionController extends Controller
 
     public function store(QuestionRequest $request): RedirectResponse
     {
-        Fitbquestion::create($request->validated());
+        $fitbquestion = new Fitbquestion($request->validated());
+        $fitbquestion->answer = $request->input('answer'); // Set the answer field separately
+        $fitbquestion->save();
 
         return redirect()->route('admin.fitbquestions.index')->with([
-            'message' => 'successfully created !',
+            'message' => 'Successfully created!',
             'alert-type' => 'success'
         ]);
     }
+
 
     public function show(Fitbquestion $question): View
     {

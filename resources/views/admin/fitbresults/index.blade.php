@@ -10,46 +10,55 @@
         <div class="card">
             <div class="card-header py-3 d-flex">
                 <h6 class="m-0 font-weight-bold text-primary">
-                    {{ __('Multiple-Choice Questions') }}
+                    {{ __('result') }}
                 </h6>
                 <div class="ml-auto">
-                    <a href="{{ route('admin.questions.create') }}" class="btn btn-primary">
+                    <a href="{{ route('admin.fitbresults.create') }}" class="btn btn-primary">
                         <span class="icon text-white-50">
                             <i class="fa fa-plus"></i>
                         </span>
-                        <span class="text">{{ __('New question') }}</span>
+                        <span class="text">{{ __('New result') }}</span>
                     </a>
                 </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered table-striped table-hover datatable datatable-question" cellspacing="0" width="100%">
+                    <table class="table table-bordered table-striped table-hover datatable datatable-result" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th width="10">
 
                                 </th>
                                 <th>No</th>
-                                <th>Category</th>
-                                <th>Question Text</th>
+                                <th>User</th>
+                                <th>Points</th>
+                                <th>Questions</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($questions as $question)
-                            <tr data-entry-id="{{ $question->id }}">
+                            @forelse($fitbresults as $fitbresult)
+                            <tr data-entry-id="{{ $fitbresult->id }}">
                                 <td>
 
                                 </td>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $question->category->name }}</td>
-                                <td>{{ $question->question_text }}</td>
+                                <td>{{ $fitbresult->user->name }}</td>
+                                <td>{{ $fitbresult->total_points }}</td>
+                                <td>
+                                    @foreach($fitbresult->fitbquestions as $key => $fitbquestion)
+                                        <span class="badge badge-info">{{ $fitbquestion->question_text }}</span>
+                                    @endforeach
+                                </td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
-                                        <a href="{{ route('admin.questions.edit', $question->id) }}" class="btn btn-info">
+                                        <a href="{{ route('admin.fitbresults.show', $fitbresult->id) }}" class="btn btn-success">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <a href="{{ route('admin.fitbresults.edit', $fitbresult->id) }}" class="btn btn-info">
                                             <i class="fa fa-pencil-alt"></i>
                                         </a>
-                                        <form onclick="return confirm('are you sure ? ')" class="d-inline" action="{{ route('admin.questions.destroy', $question->id) }}" method="POST">
+                                        <form onclick="return confirm('are you sure ? ')" class="d-inline" action="{{ route('admin.fitbresults.destroy', $fitbresult->id) }}" method="POST">
                                             @csrf
                                             @method('delete')
                                             <button class="btn btn-danger" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">
@@ -81,7 +90,7 @@
   let deleteButtonTrans = 'delete selected'
   let deleteButton = {
     text: deleteButtonTrans,
-    url: "{{ route('admin.questions.mass_destroy') }}",
+    url: "{{ route('admin.results.mass_destroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
@@ -106,7 +115,7 @@
     order: [[ 1, 'asc' ]],
     pageLength: 50,
   });
-  $('.datatable-question:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  $('.datatable-result:not(.ajaxTable)').DataTable({ buttons: dtButtons })
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();

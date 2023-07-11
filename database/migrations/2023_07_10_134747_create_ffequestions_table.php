@@ -5,7 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFitbquestionsTable extends Migration
+class CreateFfequestionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,17 @@ class CreateFitbquestionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('fitbquestions', function (Blueprint $table) {
+        Schema::create('ffequestions', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Category::class)->constrained()->cascadeOnUpdate();
             $table->longText('question_text');
-            $table->longText('answer')->nullable();
+            $table->text('compulsory_line1')->nullable();
+            $table->text('compulsory_line2')->nullable();
+            $table->text('optional_line1')->nullable();
+            $table->text('optional_line2')->nullable();
+            $table->text('optional_line3')->nullable();
+            $table->unsignedTinyInteger('error_line')->nullable();
+            $table->text('correct_command')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +36,6 @@ class CreateFitbquestionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fitbquestions');
+        Schema::dropIfExists('ffequestions');
     }
 }

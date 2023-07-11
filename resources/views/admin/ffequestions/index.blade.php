@@ -8,7 +8,7 @@
         <div class="card-header py-3 d-flex">
             <h6 class="m-0 font-weight-bold text-primary">{{ __('Questions') }}</h6>
             <div class="ml-auto">
-                <a href="{{ route('admin.fitbquestions.create') }}" class="btn btn-primary">
+                <a href="{{ route('admin.ffequestions.create') }}" class="btn btn-primary">
                     <span class="icon text-white-50">
                         <i class="fa fa-plus"></i>
                     </span>
@@ -24,8 +24,14 @@
                             <th width="10"></th>
                             <th>No</th>
                             <th>Category</th>
-                            <th>Question Text</th>
-                            <th>Answer</th>
+                            <th>Question text</th>
+                            <th>Compulsory Line 1</th>
+                            <th>Compulsory Line 2</th>
+                            <th>Optional Line 1</th>
+                            <th>Optional Line 2</th>
+                            <th>Optional Line 3</th>
+                            <th>Error Line</th>
+                            <th>Correct Command</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -36,13 +42,19 @@
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $question->category->name }}</td>
                             <td>{{ $question->question_text }}</td>
-                            <td>{{ $question->answer }}</td>
+                            <td>{{ $question->compulsory_line1 }}</td>
+                            <td>{{ $question->compulsory_line2 }}</td>
+                            <td>{{ $question->optional_line1 }}</td>
+                            <td>{{ $question->optional_line2 }}</td>
+                            <td>{{ $question->optional_line3 }}</td>
+                            <td>{{ $question->error_line }}</td>
+                            <td>{{ $question->correct_command }}</td>
                             <td>
                                 <div class="btn-group btn-group-sm">
-                                    <a href="{{ route('admin.fitbquestions.edit', $question->id) }}" class="btn btn-info">
+                                    <a href="{{ route('admin.ffequestions.edit', $question->id) }}" class="btn btn-info">
                                         <i class="fa fa-pencil-alt"></i>
                                     </a>
-                                    <form onclick="return confirm('Are you sure?')" class="d-inline" action="{{ route('admin.fitbquestions.destroy', $question->id) }}" method="POST">
+                                    <form onclick="return confirm('Are you sure?')" class="d-inline" action="{{ route('admin.ffequestions.destroy', $question->id) }}" method="POST">
                                         @csrf
                                         @method('delete')
                                         <button class="btn btn-danger" style="border-top-left-radius: 0;border-bottom-left-radius: 0;">
@@ -54,7 +66,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="6" class="text-center">{{ __('Data Empty') }}</td>
+                            <td colspan="12" class="text-center">{{ __('Data Empty') }}</td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -73,7 +85,7 @@
         let deleteButtonTrans = 'delete selected';
         let deleteButton = {
             text: deleteButtonTrans,
-            url: "{{ route('admin.fitbquestions.mass_destroy') }}",
+            url: "{{ route('admin.ffequestions.mass_destroy') }}",
             className: 'btn-danger',
             action: function (e, dt, node, config) {
                 var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {

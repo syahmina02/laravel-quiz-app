@@ -21,7 +21,7 @@ class ResultController extends Controller
     {
         // Logic for the next page
 
-        return view('client.next');
+        return redirect()->route('client.fitbtest');
     }
 
     public function test()

@@ -25,6 +25,13 @@ Route::group(['middleware' => 'auth'], function() {
     Route::post('test',[\App\Http\Controllers\TestController::class, 'store'])->name('client.test.store');
     Route::get('results/{result_id}',[\App\Http\Controllers\ResultController::class, 'show'])->name('client.results.show');
 
+    //FITB
+    // Replace the existing test routes with the following code
+    Route::get('fitbtest', [\App\Http\Controllers\FitbtestController::class, 'index'])->name('client.fitbtest');
+    Route::post('fitbtest', [\App\Http\Controllers\FitbtestController::class, 'store'])->name('client.fitbtest.store');
+    Route::get('fitbresults/{result_id}', [\App\Http\Controllers\FitbresultController::class, 'show'])->name('client.fitbresults.show');
+
+
 /*     Route::get('test',[\App\Http\Controllers\TestController::class, 'index'])->name('client.test.index');
     Route::post('test',[\App\Http\Controllers\TestController::class, 'store'])->name('client.test.store'); */
 
@@ -59,6 +66,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('import',[\App\Http\Controllers\Admin\ExcelController::class, 'showForm'])->name('import.form');
         Route::post('import',[\App\Http\Controllers\Admin\ExcelController::class, 'import'])->name('import.process');
 
+        //QUESTION COUNT
         Route::get('question-count/edit', [\App\Http\Controllers\Admin\TestAdminController::class, 'edit'])->name('question_count.edit');
         Route::post('question-count/update', [\App\Http\Controllers\Admin\TestAdminController::class, 'update'])->name('question_count.update');
         
@@ -72,6 +80,14 @@ Route::group(['middleware' => 'auth'], function() {
         //FITB OPTIONS
         Route::resource('fitboptions', \App\Http\Controllers\Admin\FitboptionController::class);
         Route::delete('fitboptions_mass_destroy', [\App\Http\Controllers\Admin\FitboptionController::class, 'massDestroy'])->name('fitboptions.mass_destroy');
+
+        //FITB QUESTION COUNT
+        Route::get('fitbquestion-count/edit', [\App\Http\Controllers\Admin\FitbtestAdminController::class, 'edit'])->name('fitbquestion_count.edit');
+        Route::post('fitbquestion-count/update', [\App\Http\Controllers\Admin\FitbtestAdminController::class, 'update'])->name('fitbquestion_count.update');
+    
+        //FFE QUESTIONS
+        Route::resource('ffequestions', \App\Http\Controllers\Admin\FfequestionController::class);
+        Route::delete('ffequestions_mass_destroy', [\App\Http\Controllers\Admin\FfequestionController::class, 'massDestroy'])->name('ffequestions.mass_destroy');
 
     });
 

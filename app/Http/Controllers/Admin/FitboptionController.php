@@ -31,7 +31,7 @@ class FitboptionController extends Controller
     public function store(OptionRequest $request): RedirectResponse
     {
         $data = $request->validated();
-        $data['fitbquestion_id'] = $request->input('question_id');
+        $data['fitbquestion_id'] = $request->input('fitbquestion_id');
 
         Fitboption::create($data);
 
